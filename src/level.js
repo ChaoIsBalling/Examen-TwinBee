@@ -30,11 +30,30 @@ export default class Level extends Phaser.Scene
             right: Phaser.Input.Keyboard.KeyCodes.D,
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
           });
+       if (this.multiplayer)
+       {
+        var player2Input= this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            space: Phaser.Input.Keyboard.KeyCodes.ENTER,
+          });
+          var p2Pos=this.cameras.main.centerX+this.cameras.main.centerX/2;
+          this.player2=new Player(this,p2Pos,200,'player2',player2Input);
+          
+          this.player=new Player(this,this.cameras.main.centerX/2,200,'player',playerInput);
+       }
+       else
+       {
         this.player=new Player(this,this.cameras.main.centerX,200,'player',playerInput);
+       }
     }
     update()
     { 
         this.player.update();
+        if (this.multiplayer)
+        this.player2.update();
         if (Phaser.Input.Keyboard.JustDown(this.toggleDebug)) {
             if (this.physics.world.drawDebug) {
               this.physics.world.drawDebug = false;
