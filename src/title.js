@@ -19,7 +19,7 @@ export default class Title extends Phaser.Scene
         this.textButton(this.cameras.main.centerX, 160, '1 Player', false,'#db7644','#449cdb');
         this.textButton(this.cameras.main.centerX, 200, '2 Players', true,'#9726ed','#d91a73');
     }
-	textButton(x, y, message, multiplayer,stroke,fill){
+	textButton(x, y, message, multi,stroke,fill){
 		let text = this.add.text(x, y, message,{
             fontFamily: 'gummy',
         });
@@ -33,8 +33,7 @@ export default class Title extends Phaser.Scene
 
 		text.setInteractive();
 		text.on('pointerdown', ()=>{
-            this.multiplayer=multiplayer;
-			this.scene.start('Level')
+			this.scene.start('Level',{multiplayer:multi})
 		})
     }
 }
