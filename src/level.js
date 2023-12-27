@@ -61,6 +61,7 @@ export default class Level extends Phaser.Scene {
         this.playerInit();
         this.enemy.add(new Enemy(this, 100, -5));
         this.physics.add.collider(this.player, this.enemy, this.touchEnemy, null, this);
+        this.physics.add.collider(this.enemy, this.bulletPool.getPhaserGroup(), this.EnemyDie,null,this);
     }
     update() {
 
@@ -120,6 +121,11 @@ export default class Level extends Phaser.Scene {
         else {
             this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput,this.bulletPool));
         }
+    }
+    EnemyDie(enemy, bullet)
+    { 
+     enemy.death();
+     this.bulletPool.release(bullet);
     }
     EnemySpawn() {
         this.enemyTime--;
