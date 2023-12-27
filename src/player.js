@@ -1,9 +1,12 @@
 export default class Player extends Phaser.GameObjects.Sprite{
-    constructor(scene,x,y, texture, cursors) {
+    constructor(scene,x,y, texture, cursors, bulletPool) {
         super(scene,x,y,texture);
         this.scene.add.existing(this);
         scene.physics.add.existing(this);
         this.cursors=cursors;
+        this.bulletPool=bulletPool;
+        this.x=x;
+        this.y=y;
         this.scene.anims.create({
             key: 'left',
             frames: scene.anims.generateFrameNumbers(texture, { start: 1, end: 1}),
@@ -31,10 +34,11 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
     shoot()
     {
-        if(this.cursors.space.isDown)
+        if(this.cursors.space.isDown&&this.bulletPool.getPhaserGroup().countActive(true)==0 )
         {
         var shoot=this.scene.sound.add('shoot')
         shoot.play();
+        this.bulletPool.spawn(this.x,this.y);
         }
     }
     movement()

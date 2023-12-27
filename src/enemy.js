@@ -3,6 +3,7 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
         super(scene,x,y,'enemy');
         this.scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.y=y;
         this.scene.anims.create({
             key: 'rotating',
             frames: scene.anims.generateFrameNumbers('enemy', { start: 0, end: 2 }),
@@ -23,6 +24,10 @@ export default class Enemy extends Phaser.GameObjects.Sprite{
     update()
     {
         this.body.setVelocityY(50);
+        if(this.y>376)
+        {
+            this.destroy();
+        }
     }
 
 }

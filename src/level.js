@@ -45,7 +45,7 @@ export default class Level extends Phaser.Scene {
             let bullet = new Bullet(this, 0, 0, this.bulletPool);
             bullets.push(bullet);
         }
-        this.boxesPool.addMultipleEntity(boxes);
+        this.bulletPool.addMultipleEntity(bullets);
         this.player = this.add.group({
             maxSize: 2,
             runChildUpdate: true
@@ -103,14 +103,22 @@ export default class Level extends Phaser.Scene {
                 right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
                 space: Phaser.Input.Keyboard.KeyCodes.ENTER,
             });
+            this.bulletPool2 = new Pool(this, 100, false);
+            let bullets2 = []
+            for (let i = 0; i < 100; i++) {
+                let bullet2 = new Bullet(this, 0, 0, this.bulletPool2);
+                bullets2.push(bullet2);
+            }
+            this.bulletPool2.addMultipleEntity(bullets2);
+
             var p2Pos = this.cameras.main.centerX + this.cameras.main.centerX / 2;
 
-            this.player.add(new Player(this, p2Pos, 200, 'player2', player2Input));
+            this.player.add(new Player(this, p2Pos, 200, 'player2', player2Input,this.bulletPool2));
 
-            this.player.add(new Player(this, this.cameras.main.centerX / 2, 200, 'player', playerInput));
+            this.player.add(new Player(this, this.cameras.main.centerX / 2, 200, 'player', playerInput,this.bulletPool));
         }
         else {
-            this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput));
+            this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput,this.bulletPool));
         }
     }
     EnemySpawn() {
