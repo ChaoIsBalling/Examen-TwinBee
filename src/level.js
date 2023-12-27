@@ -42,7 +42,7 @@ export default class Level extends Phaser.Scene {
         this.bulletPool = new Pool(this, 100, false);
         let bullets = []
         for (let i = 0; i < 100; i++) {
-            let bullet = new Bullet(this, 0, 0, this.bulletPool);
+            let bullet = new Bullet(this, 0, 0, this.bulletPool,0);
             bullets.push(bullet);
         }
         this.bulletPool.addMultipleEntity(bullets);

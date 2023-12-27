@@ -31,9 +31,9 @@ export default class Pool {
 		});
 	}
 	
-	spawn (x, y, animationKey='none') {
+	spawn (x, y,time ,animationKey='none') {
 		let entity = this._group.getFirstDead();
-		
+		console.log(time)
 		/* 
 			En caso de no tener entidades disponibles en la pool, hay que decidir que hacer
 			Aquí podemos seguir varias estrategias, por ejemplo:
@@ -46,7 +46,7 @@ export default class Pool {
 				let newEntities = [];
 				let newMax = this.max.value < this._group.getLength()*2 ? this.max.value-this._group.getLength() : this._group.getLength()
 				for(let i=0; i<newMax; i++){ //En este caso hemos elegido duplicar el tamaño
-					entity = new Bullet(this.scene, x, y, this)
+					entity = new Bullet(this.scene, x, y, time,this)
 					newEntities.push(entity);
 				}	
 				this.addMultipleEntity(newEntities);

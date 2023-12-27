@@ -3,6 +3,7 @@ export default class item extends Phaser.GameObjects.Sprite{
         super(scene,x,y,'item');
         this.scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.y=y;
         this.scene.tweens.add({
             targets: this,
             rotation: -1.2,
@@ -16,5 +17,8 @@ export default class item extends Phaser.GameObjects.Sprite{
     update()
     {
         this.body.setVelocityY(20);
+        if (this.y > 376) {
+            this.destroy();
+        }
     }
 }

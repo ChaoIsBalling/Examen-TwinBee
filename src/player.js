@@ -7,6 +7,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
         this.bulletPool=bulletPool;
         this.x=x;
         this.y=y;
+        this.powNum=0
         this.scene.anims.create({
             key: 'left',
             frames: scene.anims.generateFrameNumbers(texture, { start: 1, end: 1}),
@@ -31,14 +32,15 @@ export default class Player extends Phaser.GameObjects.Sprite{
        this.movement();
        this.shoot();
     }
-
+    
     shoot()
     {
         if(this.cursors.space.isDown&&this.bulletPool.getPhaserGroup().countActive(true)==0 )
         {
         var shoot=this.scene.sound.add('shoot')
         shoot.play();
-        this.bulletPool.spawn(this.x,this.y);
+        if(this.powNum==0)
+        this.bulletPool.spawn(this.x,this.y,100);
         }
     }
     movement()
