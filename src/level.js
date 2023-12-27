@@ -4,6 +4,8 @@ import item from "./item.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: "Level" });
+        this.enemyTime=1000;
+        this.itemTime=5000;
     }
     init(data) {
         console.log('init', data);
@@ -43,10 +45,12 @@ export default class Level extends Phaser.Scene {
             runChildUpdate: true
         })
         this.playerInit();
-        this.enemy.add(new Enemy(this,this.cameras.main.centerX,20));
+        this.enemy.add(new Enemy(this,226,20));
         this.item.add(new item(this,this.cameras.main.centerX+60,20));
     }
     update() {
+        this.EnemySpawn();
+        this.itemSpawn();
         if (Phaser.Input.Keyboard.JustDown(this.toggleDebug)) {
             if (this.physics.world.drawDebug) {
                 this.physics.world.drawDebug = false;
@@ -83,6 +87,24 @@ export default class Level extends Phaser.Scene {
         }
         else {
             this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput));
+        }
+    }
+    EnemySpawn()
+    {
+     this.enemyTime--;
+     if (this.enemyTime==0)
+     {var spawnPoint = Phaser.Math.Between(30, 226);
+        this.enemy.add(new Enemy(this,spawnPoint,0));
+        this.enemyTime =1000;
+     }
+    }
+    itemSpawn()
+    {
+        this.itemTime--;
+        if (this.itemTime==0)
+        {var spawnPoint = Phaser.Math.Between(30, 226);
+           this.item.add(new item(this,spawnPoint,0));
+           this.itemTime =5000;
         }
     }
 }
