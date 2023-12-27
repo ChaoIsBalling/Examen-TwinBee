@@ -26,7 +26,7 @@ export default class Level extends Phaser.Scene {
                 targets: this.bg,
                 y: +1,
                 ease: 'Linear',
-                duration: 1000,
+                duration: 50000,
                 repeat: 0,
                 yoyo: false,
             });
@@ -37,7 +37,6 @@ export default class Level extends Phaser.Scene {
 
             })
         
-
         this.bullet = this.add.group({
             maxSize: 100,
             runChildUpdate: true
@@ -59,6 +58,7 @@ export default class Level extends Phaser.Scene {
         this.physics.add.collider(this.player, this.enemy, this.touchEnemy, null, this);
     }
     update() {
+    
         this.EnemySpawn();
         this.itemSpawn();
         this.returnTitle();
@@ -78,7 +78,10 @@ export default class Level extends Phaser.Scene {
         var death = this.sound.add('dead')
         death.play();
         player.destroy();
+        if(this.player.countActive(true)==0)
+        {
         this.levelFinish("GAME OVER");
+        }
         }
     }
     playerInit() {
