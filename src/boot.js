@@ -11,7 +11,7 @@ export default class Boot extends Phaser.Scene
         this.load.image('bullet','assets/images/bullet.png');
         this.load.spritesheet('enemy','assets/images/enemy.png',{ frameWidth: 16, frameHeight: 16});
         this.load.spritesheet('explosion','assets/images/explosion.png',{ frameWidth: 16, frameHeight: 16});
-        this.load.image('green','assets/images/green.png');
+        this.load.image('item','assets/images/green.png');
         this.load.spritesheet('player','assets/images/twinbee.png',{ frameWidth: 16, frameHeight: 16});
         this.load.spritesheet('player2','assets/images/winbee.png',{ frameWidth: 16, frameHeight: 16});
 

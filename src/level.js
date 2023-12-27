@@ -15,6 +15,17 @@ export default class Level extends Phaser.Scene {
         this.toggleDebug = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
         this.bg = this.add.image(0, -1160, 'bg').setOrigin(0);
+     
+        this.tweens.add(
+            {
+                targets: this.bg,
+                y: +1,
+                ease: 'Linear',
+                duration: 50000,
+                repeat: 0,
+                yoyo: false,
+            });   
+            
         this.bullet = this.add.group({
             maxSize: 100,
             runChildUpdate: true
@@ -27,15 +38,28 @@ export default class Level extends Phaser.Scene {
             maxSize: 10,
             runChildUpdate: true
         })
-        this.tweens.add(
-            {
-                targets: this.bg,
-                y: +1,
-                ease: 'Linear',
-                duration: 50000,
-                repeat: 0,
-                yoyo: false,
-            });
+        this.item = this.add.group({
+            maxSize: 10,
+            runChildUpdate: true
+        })
+        this.playerInit();
+        this.enemy.add(new Enemy(this,this.cameras.main.centerX,20));
+        this.item.add(new item(this,this.cameras.main.centerX+60,20));
+    }
+    update() {
+        if (Phaser.Input.Keyboard.JustDown(this.toggleDebug)) {
+            if (this.physics.world.drawDebug) {
+                this.physics.world.drawDebug = false;
+                this.physics.world.debugGraphic.clear();
+            }
+            else {
+                this.physics.world.drawDebug = true;
+            }
+        }
+    }
+
+    playerInit()
+    {
         var playerInput = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -59,17 +83,6 @@ export default class Level extends Phaser.Scene {
         }
         else {
             this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput));
-        }
-    }
-    update() {
-        if (Phaser.Input.Keyboard.JustDown(this.toggleDebug)) {
-            if (this.physics.world.drawDebug) {
-                this.physics.world.drawDebug = false;
-                this.physics.world.debugGraphic.clear();
-            }
-            else {
-                this.physics.world.drawDebug = true;
-            }
         }
     }
 }
