@@ -3,6 +3,15 @@ export default class item extends Phaser.GameObjects.Sprite{
         super(scene,x,y,'item');
         this.scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.scene.tweens.add({
+            targets: this,
+            rotation: -1.2,
+            ease: 'sine.inout',
+            duration: 2000,
+            delay: 50,
+            repeat: -1,
+            yoyo: true
+        });
     }
     update()
     {
