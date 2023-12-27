@@ -10,13 +10,18 @@ export default class Level extends Phaser.Scene {
     }
     create() {
         this.physics.world.drawDebug = false;
-        this.toggleDebug = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
-
-        this.bg = this.add.image(0, -1160, 'bg').setOrigin(0);
+        this.bullet = this.add.group({
+            maxSize: 100,
+            runChildUpdate: true
+        })
         this.player = this.add.group({
             maxSize: 2,
             runChildUpdate: true
         });
+        this.enemy = this.add.group({
+            maxSize: 10,
+            runChildUpdate: true
+        })
         this.tweens.add(
             {
                 targets: this.bg,
