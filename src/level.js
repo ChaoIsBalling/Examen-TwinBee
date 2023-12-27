@@ -1,4 +1,6 @@
 import Player from "./player.js";
+import Enemy from "./enemy.js";
+import item from "./item.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: "Level" });
@@ -10,6 +12,9 @@ export default class Level extends Phaser.Scene {
     }
     create() {
         this.physics.world.drawDebug = false;
+        this.toggleDebug = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+
+        this.bg = this.add.image(0, -1160, 'bg').setOrigin(0);
         this.bullet = this.add.group({
             maxSize: 100,
             runChildUpdate: true
