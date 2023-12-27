@@ -1,6 +1,8 @@
 import Player from "./player.js";
 import Enemy from "./enemy.js";
 import item from "./item.js";
+import Bullet from "./bullet.js";
+import Pool from "./pool.js";
 export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: "Level" });
@@ -21,7 +23,7 @@ export default class Level extends Phaser.Scene {
 
         this.bg = this.add.image(0, -1160, 'bg').setOrigin(0);
 
-         var tween =this.tweens.add(
+        var tween = this.tweens.add(
             {
                 targets: this.bg,
                 y: +1,
@@ -31,16 +33,19 @@ export default class Level extends Phaser.Scene {
                 yoyo: false,
             });
 
-            tween.on('complete', () => {
-               this.win = true;
-                this.levelFinish("WINNER :)")
+        tween.on('complete', () => {
+            this.win = true;
+            this.levelFinish("WINNER :)")
 
-            })
-        
-        this.bullet = this.add.group({
-            maxSize: 100,
-            runChildUpdate: true
         })
+
+        this.bulletPool = new Pool(this, 100, false);
+        let bullets = []
+        for (let i = 0; i < 100; i++) {
+            let bullet = new Bullet(this, 0, 0, this.bulletPool);
+            bullets.push(bullet);
+        }
+        this.boxesPool.addMultipleEntity(boxes);
         this.player = this.add.group({
             maxSize: 2,
             runChildUpdate: true
@@ -58,7 +63,7 @@ export default class Level extends Phaser.Scene {
         this.physics.add.collider(this.player, this.enemy, this.touchEnemy, null, this);
     }
     update() {
-    
+
         this.EnemySpawn();
         this.itemSpawn();
         this.returnTitle();
@@ -73,15 +78,13 @@ export default class Level extends Phaser.Scene {
         }
     }
     touchEnemy(player, enemy) {
-        if(!this.win)
-        {
-        var death = this.sound.add('dead')
-        death.play();
-        player.destroy();
-        if(this.player.countActive(true)==0)
-        {
-        this.levelFinish("GAME OVER");
-        }
+        if (!this.win) {
+            var death = this.sound.add('dead')
+            death.play();
+            player.destroy();
+            if (this.player.countActive(true) == 0) {
+                this.levelFinish("GAME OVER");
+            }
         }
     }
     playerInit() {
