@@ -95,7 +95,7 @@ export default class Level extends Phaser.Scene {
         this.bulletPool = new Pool(this, 100, false);
         let bullets = []
         for (let i = 0; i < 100; i++) {
-            let bullet = new Bullet(this, 0, 0, this.bulletPool,0);
+            let bullet = new Bullet(this, 0, 0, this.bulletPool);
             bullets.push(bullet);
         }
         this.bulletPool.addMultipleEntity(bullets);
@@ -118,7 +118,7 @@ export default class Level extends Phaser.Scene {
             this.bulletPool2 = new Pool(this, 100, false);
             let bullets2 = []
             for (let i = 0; i < 100; i++) {
-                let bullet2 = new Bullet(this, 0, 0, this.bulletPool2,0);
+                let bullet2 = new Bullet(this, 0, 0, this.bulletPool2);
                 bullets2.push(bullet2);
             }
             this.bulletPool2.addMultipleEntity(bullets2);
@@ -130,7 +130,7 @@ export default class Level extends Phaser.Scene {
             this.player.add(new Player(this, this.cameras.main.centerX / 2, 200, 'player', playerInput,this.bulletPool));
         }
         else {
-            this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput,this.bulletPool2));
+            this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput,this.bulletPool));
         }
     }
     EnemyDie(enemy, bullet)

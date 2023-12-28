@@ -31,8 +31,9 @@ export default class Pool {
 		});
 	}
 	
-	spawn (x, y,time ,animationKey='none') {
+	spawn (x, y,newtime, newAngle ,animationKey='none') {
 	
+		console.log(newAngle)
 		let entity = this._group.getFirstDead();
 		/* 
 			En caso de no tener entidades disponibles en la pool, hay que decidir que hacer
@@ -47,7 +48,8 @@ export default class Pool {
 				let newEntities = [];
 				let newMax = this.max.value < this._group.getLength()*2 ? this.max.value-this._group.getLength() : this._group.getLength()
 				for(let i=0; i<newMax; i++){ //En este caso hemos elegido duplicar el tamaño
-					entity = new Bullet(this.scene, x, y,this,time)
+					entity = new Bullet(this.scene, x, y,this)
+					entity.time=newtime;
 					newEntities.push(entity);
 				}	
 				this.addMultipleEntity(newEntities);
@@ -66,6 +68,8 @@ export default class Pool {
 		if (entity) {
 			entity.x = x;
 			entity.y = y;
+			entity.desviacion= newAngle;
+			entity.time=newtime;
 			entity.play(animationKey)
 			entity.setActive(true);
 			entity.setVisible(true); 

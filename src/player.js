@@ -40,17 +40,24 @@ export default class Player extends Phaser.GameObjects.Sprite{
         var shoot=this.scene.sound.add('shoot')
         shoot.play();
         if(this.powNum==0)
-        this.bulletPool.spawn(this.x,this.y,100);
+        this.bulletPool.spawn(this.x,this.y,0,0);
         if(this.powNum==1){
-        this.bulletPool.spawn(this.x-5,this.y,100);
-        this.bulletPool.spawn(this.x+5,this.y,100);
+        this.bulletPool.spawn(this.x-5,this.y,0,-10);
+        this.bulletPool.spawn(this.x+5,this.y,0,10);
         }
-        if(this.powNum>=2){
-            this.bulletPool.spawn(this.x-15,this.y,100);
-            this.bulletPool.spawn(this.x+15,this.y,100);
-            this.bulletPool.spawn(this.x-5,this.y,100);
-            this.bulletPool.spawn(this.x+5,this.y,100);
+        if(this.powNum==2){
+            this.bulletPool.spawn(this.x-15,this.y,0,-10);
+            this.bulletPool.spawn(this.x+15,this.y,0,10);
+            this.bulletPool.spawn(this.x-5,this.y,0,0);
+            this.bulletPool.spawn(this.x+5,this.y,0,0);
             }
+            if(this.powNum>2){
+                var speed =(this.powNum-2)*10
+                this.bulletPool.spawn(this.x-15,this.y,speed,-10);
+                this.bulletPool.spawn(this.x+15,this.y,speed,10);
+                this.bulletPool.spawn(this.x-5,this.y,speed,0);
+                this.bulletPool.spawn(this.x+5,this.y,speed,0);
+                }
         }
         
     }
