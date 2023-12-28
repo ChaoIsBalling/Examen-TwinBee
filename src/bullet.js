@@ -9,6 +9,7 @@ export default class Bullet extends Phaser.GameObjects.Sprite{
     } 
     preUpdate(t,dt)
         {
+            console.log(this.time)
             super.preUpdate(t, dt);
             
             this.body.setVelocityY((-80-this.time));

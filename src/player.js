@@ -29,6 +29,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
     }
     update()
     {
+        console.log(this.powNum)
        this.movement();
        this.shoot();
     }
@@ -41,7 +42,18 @@ export default class Player extends Phaser.GameObjects.Sprite{
         shoot.play();
         if(this.powNum==0)
         this.bulletPool.spawn(this.x,this.y,100);
+        if(this.powNum==1){
+        this.bulletPool.spawn(this.x-5,this.y,100);
+        this.bulletPool.spawn(this.x+5,this.y,100);
         }
+        if(this.powNum==2){
+            this.bulletPool.spawn(this.x-10,this.y,100);
+            this.bulletPool.spawn(this.x+10,this.y,100);
+            this.bulletPool.spawn(this.x-5,this.y,100);
+            this.bulletPool.spawn(this.x+5,this.y,100);
+            }
+        }
+        
     }
     movement()
     {

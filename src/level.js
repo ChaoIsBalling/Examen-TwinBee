@@ -61,7 +61,9 @@ export default class Level extends Phaser.Scene {
         this.playerInit();
         this.enemy.add(new Enemy(this, 100, -5));
         this.physics.add.collider(this.player, this.enemy, this.touchEnemy, null, this);
+        this.physics.add.collider(this.player, this.item, this.touchItem, null, this);
         this.physics.add.collider(this.enemy, this.bulletPool.getPhaserGroup(), this.EnemyDie,null,this);
+        this.item.add(new item(this, 100, 0));
     }
     update() {
 
@@ -77,6 +79,12 @@ export default class Level extends Phaser.Scene {
                 this.physics.world.drawDebug = true;
             }
         }
+    }
+    touchItem(player, item) {
+        var touch=this.sound.add('lucky')
+        touch.play();
+        item.destroy()
+        player.powNum++;
     }
     touchEnemy(player, enemy) {
         if (!this.win) {
