@@ -7,7 +7,7 @@ export default class Level extends Phaser.Scene {
     constructor() {
         super({ key: "Level" });
         this.enemyTime = 1000;
-        this.itemTime = 5000;
+        this.itemTime = 2000;
         this.transitionTime = 500;
         this.levelEnded = false;
         this.win = false;
@@ -39,13 +39,6 @@ export default class Level extends Phaser.Scene {
 
         })
 
-        this.bulletPool = new Pool(this, 100, false);
-        let bullets = []
-        for (let i = 0; i < 100; i++) {
-            let bullet = new Bullet(this, 0, 0, this.bulletPool,0);
-            bullets.push(bullet);
-        }
-        this.bulletPool.addMultipleEntity(bullets);
         this.player = this.add.group({
             maxSize: 2,
             runChildUpdate: true
@@ -63,6 +56,8 @@ export default class Level extends Phaser.Scene {
         this.physics.add.collider(this.player, this.enemy, this.touchEnemy, null, this);
         this.physics.add.collider(this.player, this.item, this.touchItem, null, this);
         this.physics.add.collider(this.enemy, this.bulletPool.getPhaserGroup(), this.EnemyDie,null,this);
+        if(this.multiplayer)
+        this.physics.add.collider(this.enemy, this.bulletPool2.getPhaserGroup(), this.EnemyDie2,null,this);
         this.item.add(new item(this, 100, 0));
     }
     update() {
@@ -97,6 +92,14 @@ export default class Level extends Phaser.Scene {
         }
     }
     playerInit() {
+        this.bulletPool = new Pool(this, 100, false);
+        let bullets = []
+        for (let i = 0; i < 100; i++) {
+            let bullet = new Bullet(this, 0, 0, this.bulletPool,0);
+            bullets.push(bullet);
+        }
+        this.bulletPool.addMultipleEntity(bullets);
+        
         var playerInput = this.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -115,7 +118,7 @@ export default class Level extends Phaser.Scene {
             this.bulletPool2 = new Pool(this, 100, false);
             let bullets2 = []
             for (let i = 0; i < 100; i++) {
-                let bullet2 = new Bullet(this, 0, 0, this.bulletPool2);
+                let bullet2 = new Bullet(this, 0, 0, this.bulletPool2,0);
                 bullets2.push(bullet2);
             }
             this.bulletPool2.addMultipleEntity(bullets2);
@@ -127,13 +130,18 @@ export default class Level extends Phaser.Scene {
             this.player.add(new Player(this, this.cameras.main.centerX / 2, 200, 'player', playerInput,this.bulletPool));
         }
         else {
-            this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput,this.bulletPool));
+            this.player.add(new Player(this, this.cameras.main.centerX, 200, 'player', playerInput,this.bulletPool2));
         }
     }
     EnemyDie(enemy, bullet)
     { 
      enemy.death();
      this.bulletPool.release(bullet);
+    }
+    EnemyDie2(enemy, bullet)
+    { 
+     enemy.death();
+     this.bulletPool2.release(bullet);
     }
     EnemySpawn() {
         this.enemyTime--;
@@ -148,7 +156,7 @@ export default class Level extends Phaser.Scene {
         if (this.itemTime <= 0) {
             var spawnPoint = Phaser.Math.Between(30, 226);
             this.item.add(new item(this, spawnPoint, 0));
-            this.itemTime = 5000;
+            this.itemTime = 2000;
         }
     }
     levelFinish(smh) {
@@ -170,7 +178,7 @@ export default class Level extends Phaser.Scene {
                 this.levelEnded = false;
                 this.transitionTime = 500;
                 this.enemyTime = 1000;
-                this.itemTime = 5000;
+                this.itemTime = 2000;
                 this.scene.start('Title');
             }
         }
